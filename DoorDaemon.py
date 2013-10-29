@@ -1,5 +1,6 @@
 import threading
 import time
+from RPi import GPIO
 
 #Reads cards swipes and PIN entries from the event_queue,
 #opens the door if it spots a correct entry sequence
@@ -34,6 +35,9 @@ class DoorDaemon(threading.Thread):
 					#open the door
 					if self.card_db.get(last_card_seen.data) == event.data:
 						print "open the door!"
+						GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+						time.sleep(1)
+						GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 						last_card_seen = None
 					else:
 						print "wrong pin!"
