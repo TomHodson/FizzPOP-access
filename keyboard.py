@@ -43,9 +43,12 @@ class KeyBoardReader(threading.Thread):
 			    			packet = Event(self.dev_name, "".join(self.buffer), event.timestamp())
 			    			self.queue.put(packet)
 			    			self.buffer = []
+			    		continue
+			    	if key == 'backspace':
+			    		self.buffer.pop()
 		        	elif key != None:
 		        		self.buffer.append(key)
-keymap = {
+cardreader_keymap = {
 	2:'1',
 	3:'2',
 	4:'3',
@@ -57,4 +60,26 @@ keymap = {
 	10:'9',
 	11:'0',
 	28:'\n',
+	}
+
+
+keypad_keymap = {
+	79:'1',
+	80:'2',
+	81:'3',
+	75:'4',
+	76:'5',
+	77:'6',
+	71:'7',
+	72:'8',
+	73:'9',
+	82:'0',
+	28:'\n',
+	83:'.',
+	74:'-',
+	78:'+',
+	98:'/',
+	55:'*',
+	14:'backspace',
+	15:'\t'
 	}

@@ -16,21 +16,27 @@ class DoorDaemon(threading.Thread):
 		
 		while True:
 			event = self.event_queue.get(block = True)
+
 			if event.name == "Card Number":
 				last_card_seen = event
-			elif event.name == "PIN code" and last_card_seen:
-				if (event.time - last_card_seen.time) > self.timeout:
-					print "timeout failed"
+				print "Card with number {} presented".format(event.data)
+
+			elif event.name == "PIN code" and last_card_seen == None:
+					print "Present the card first"
+
+			elif event.name == "PIN code" and (event.time - last_card_seen.time) > self.timeout:
+					print "timeout failed, timeout is {} seconds, you took {}".format(
+							self.timeout,
+							(event.time - last_card_seen.time))
 					last_card_seen = None
-					continue
-				else:
+			elif event.name == "PIN code":
 					#check the pin
 					#open the door
 					if self.card_db.get(last_card_seen.data) == event.data:
 						print "open the door!"
+						last_card_seen = None
 					else:
 						print "wrong pin!"
-					last_card_seen = None
 
 
 
