@@ -18,7 +18,7 @@ card_db = {'0694682760':'5555'}
  #######  Threads   ##### 
 #these threads read events form the two USB HID devices and package them up into larger actions
 keypad_daemon = KeyBoardReader("PIN code", keypad_path, event_queue, keypad_keymap)
-cardreader_daemon = KeyBoardReader("Card Number", '/dev/input/event11', event_queue, cardreader_keymap)
+cardreader_daemon = KeyBoardReader("Card Number", cardreader_path, event_queue, cardreader_keymap)
 daemon = DoorDaemon(event_queue, card_db, timeout = 10) #reads from the event_queue and opens the door
 
 cardreader_daemon.start()
